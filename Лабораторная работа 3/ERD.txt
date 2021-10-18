@@ -1,0 +1,29 @@
+@startuml
+skinparam class {
+	BackgroundColor White
+	ArrowColor Black
+	BorderColor Black
+}
+
+class ControlInfo as "Информационный поток"
+
+class Employees as "Список сотрудников"
+class TasksNew as "Правки, новые задачи"
+class TasksFromOwner as "Список задач"
+class TableEmployees as "Таблица Сотрудников"
+class TableTasks as "Таблица Задач"
+
+class DataBase as "База Данных"
+
+ControlInfo <|-- DataBase
+DataBase <|-- TableEmployees
+TableEmployees *-- Employees
+
+DataBase <|-- TableTasks
+TableTasks *-- TasksNew
+TableTasks *-- TasksFromOwner
+
+hide members
+hide circle
+hide methods
+@enduml

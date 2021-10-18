@@ -1,0 +1,60 @@
+@startuml
+skinparam actor {
+	BackgroundColor White
+	ArrowColor Black
+	BorderColor Black
+}
+autonumber
+
+actor "Владелец" as user
+boundary "Список задач" as app
+control "Ajax" as http
+control "HTML" as web
+control "PHP" as php
+entity "База Данных" as mem
+
+user -> app: initialise
+app -> http: query
+activate http
+http -> web: visualize
+activate web
+
+== store ==
+
+web -> php: getInfo()
+activate php
+loop
+   php -> mem: entry.getInfo()
+   activate mem
+   mem --> php: ok
+   deactivate mem
+end
+php --> web: ok
+deactivate php
+
+== set ==
+
+web -> php: setInfo()
+activate php
+
+php -> mem: lamp.getInfoList()
+activate mem
+mem -> php: infoList
+
+loop
+   php -> mem: setInfo()
+   mem -> php: ok
+end
+deactivate mem
+php --> web: ok
+deactivate php
+
+== ==
+
+web --> http: ok
+deactivate web
+http --> app: ok
+deactivate http
+
+app --> user: ok
+@enduml
